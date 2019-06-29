@@ -1,12 +1,21 @@
 import React,{Component} from 'react';
 import './App.css';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import users from "./data/users";
+import Code from './layouts/Code';
+import Posts from './layouts/Posts';
+import Post from './layouts/Post';
+import Login from './layouts/Login';
+import Navbar from './common/Navbar';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
+
+
 
 
 class App extends Component{
 
-  state = { users: users };
+state = { users: users };
 
 search = () => {
     alert("hi")
@@ -17,26 +26,24 @@ search = () => {
       const { users } = this.state;
       console.log(users);
   return (
-    <div className="App row">
-      <div className="bg-info col-12 d-flex justify-content-center align-items-center py-100" style={{"height":"200px"}}>
-        <Form inline>
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-              <Button onClick={this.search} color="primary">جستجو</Button>
-            </FormGroup>
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-              <Input type="email" dir="rtl" name="email" id="exampleEmail" placeholder="کد ملی را وارد کنید" />
-              <Label for="exampleEmail" className="mr-sm-2 ml-sm-1 text-white">:کدملی</Label>
-          </FormGroup>
-        </Form>
-      </div>
-      <div className="col-8 bg-primary">
-        bye
-      </div>
-      <div className="col-4 bg-warning">
-        side
-      </div>
-    </div>
-  );
+        <Provider store={store}>
+          <div className="App">
+
+        <Router>
+            <Navbar />
+              <Switch>
+              <Route exact path="/login" component={Login} />
+              </Switch>
+            <Switch>
+            <Route exact path="/posts" component={Posts} />
+            </Switch>
+            <Switch>
+            <Route exact path="/post/:id" component={Post} />
+            </Switch>
+        </Router>
+          </div>
+      </Provider>
+    );
 }
 }
 
